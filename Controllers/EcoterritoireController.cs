@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
+using System.Text.Json;
+using GeoJSON.Text.Feature;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -17,6 +19,19 @@ namespace asp_mvc_webmap_vs.Controllers
         public EcoterritoireController(MvcWebmapContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public ContentResult GetEcoterritoireData()
+        {
+            // Fetch GeoJSON FeatureCollection
+            FeatureCollection featureCollection = _context.FetchGeoJsonFromDatabase();
+
+            // Serialize FeatureCollection to JSON
+            string geoJson = JsonSerializer.Serialize(featureCollection);
+
+            // Return GeoJSON
+            return Content(geoJson, "application/json");
         }
 
         // GET: Ecoterritoire/Map
