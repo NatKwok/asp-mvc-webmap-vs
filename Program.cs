@@ -1,8 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContextPool<asp_mvc_webmap_vs.Data.MvcWebmapContext>(options =>
+    options.UseNpgsql("Host=localhost;Username=postgres;Password=^ytrO524FD;Database=mvc_webmap",
+                      x => x.UseNetTopologySuite()));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
