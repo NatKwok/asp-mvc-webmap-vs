@@ -1,0 +1,42 @@
+@model asp_mvc_webmap_vs.Models.Ecoterritoire
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Ecoterritoire</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Geom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Geom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShapeLeng)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShapeLeng)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShapeArea)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShapeArea)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
