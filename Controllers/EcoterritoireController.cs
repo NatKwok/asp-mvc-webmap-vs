@@ -19,6 +19,12 @@ namespace asp_mvc_webmap_vs.Controllers
             _context = context;
         }
 
+        // GET: Ecoterritoire/Map
+        public async Task<IActionResult> Map()
+        {
+            return View(await _context.Ecoterritoires.ToListAsync());
+        }
+
         // GET: Ecoterritoire
         public async Task<IActionResult> Index()
         {
