@@ -11,7 +11,7 @@ namespace asp_mvc_webmap_vs
         {
             var featureCollection = new FeatureCollection();
 
-            using (var connection = new NpgsqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection())
             {
                 connection.Open();
 
