@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
-using System.Text.Json;
-using GeoJSON.Text.Feature;
-using GeoJSON.Text.Geometry;
-using NetTopologySuite.Geometries;
 using Newtonsoft.Json;
+using GeoJSON.Text.Geometry;
+using NetTopologySuite.IO;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -38,27 +35,26 @@ namespace asp_mvc_webmap_vs.Controllers
         //}
 
         // GET: Ecoterritoire/Map
-        public async Task<ActionResult<IEnumerable<Ecoterritoire>>> Map()
+        public async Task<ActionResult> Map()
         {
             var feature = await _context.Ecoterritoires.ToListAsync();
-
-            //Map data to GeoJSON Features
+            var geoJsonWriter = new GeoJsonWriter();
             var features = feature.Select(record =>
             {
 
-                // Check if Geom is not null
                 if (record.Geom == null)
                 {
-                    // Handle cases where Geom is null (e.g., skip the record or provide a default value)
                     return null;
                 }
+                // Convert the geometry to a GeoJSON string
+                var geometryJson = geoJsonWriter.Write(record.Geom);
+                var geometry = JsonConvert.DeserializeObject<GeoJSON.Text.Geometry.IGeometryObject>(geometryJson);
 
-                var polygon = record.Geom.Coordinates
-                    .Select(lineString => new GeoJSON.Text.Geometry.LineString(
-                        lineString.Coordinates.Select(coord => new GeoJSON.Text.Geometry.Position(coord.Y, coord.X)).ToList()
-                    )).ToList();
+                //var polygon = record.Geom.
+                //    .Select(lineString => new LineString(
+                //        lineString.Coordinates.Select(coord => new GeoJSON.Text.Geometry.Position(coord.Y, coord.X)).ToList()
+                //    )).ToList();
 
-                // Add additional properties from your model
                 var properties = new Dictionary<string, object>
                         {
                             { "id", record.Id },
@@ -67,18 +63,13 @@ namespace asp_mvc_webmap_vs.Controllers
                             { "shapeArea", record.ShapeArea }
                         };
 
-                // Create a GeoJSON Feature
-                return new Feature(polygon, properties);
+                return new GeoJSON.Text.Feature.Feature(geometry, properties);
 
             }).ToList();
 
-            //Create a FeatureCollection
-            var featureCollection = new FeatureCollection(features);
-
-            //Serialize to GeoJSON
+            var featureCollection = GeojsonConverter.CreateFeatureCollection(features);
             var geoJson = JsonConvert.SerializeObject(featureCollection);
-
-            // Return GeoJSON with appropriate content type
+   
             return Content(geoJson, "application/json");
         }
 
