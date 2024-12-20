@@ -4,6 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    ViewBag.Title = "Interactive Map";
+}
+
+
 <header>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -31,21 +36,6 @@
 
     <script>
         var map = L.map('map').setView([45.5119, -73.6774], 11);
-        @* var states = [{
-            "type": "Feature",
-            "properties": { "party": "Republican" },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [[
-                    [-104.05, 48.99],
-                    [-97.22, 48.98],
-                    [-96.58, 45.94],
-                    [-104.03, 45.94],
-                    [-104.05, 48.99]
-                ]]
-            }
-        }];
-        L.geoJSON(states).addTo(map); *@
 
         $.ajax({
                 url: "/Ecoterritoire/GetEcoterritoires",
