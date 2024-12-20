@@ -21,6 +21,10 @@ namespace asp_mvc_webmap_vs.Controllers
         {
             _context = context;
         }
+        public IActionResult Map()
+        {
+            return View("Map");
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ecoterritoire>>> GetEcoterritoires()
