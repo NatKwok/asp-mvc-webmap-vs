@@ -29,7 +29,7 @@ namespace asp_mvc_webmap_vs.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ecoterritoire>>> GetEcoterritoires()
         {
-            var feature = await _context.Ecoterritoires.Take(2).ToListAsync();
+            var feature = await _context.Ecoterritoires.ToListAsync();
             var features = feature.Select(record =>
             {
                 if (record.Geom == null)
@@ -62,7 +62,7 @@ namespace asp_mvc_webmap_vs.Controllers
                     return new
                     {
                         type = "Feature",
-                        geometry = polygonCoord,
+                        geometry = geoJsonPolygon,
                         properties
                     };
                 }
