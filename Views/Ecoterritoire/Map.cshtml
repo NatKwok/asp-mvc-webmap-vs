@@ -1,69 +1,61 @@
-﻿@model IEnumerable<Ecoterritoire>
+﻿@model IEnumerable<asp_mvc_webmap_vs.Models.Ecoterritoire>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Map";
 }
 <header>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <style>
-        #map {
-            width: 100%;
-            height: 700px;
-        }
-    </style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+		  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+			integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<style>
+		#map {
+			width: 100%;
+			height: 700px;
+		}
+	</style>
 </header>
 <div>
 
-    <h2>Ecoterritoire</h2>
-    <p>Hello from our View Template!</p>
-    <div id="map">
-    </div>
+	<h2>Ecoterritoire</h2>
+	<p>Hello from our View Template!</p>
+	<div id="map">
+	</div>
 
 </div>
 
 
 @section Scripts {
 
-    <script>
-        var map = L.map('map').setView([45.5119, -73.6774], 11);
-        @* var states = [{
-            "type": "Feature",
-            "properties": { "party": "Republican" },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [[
-                    [-104.05, 48.99],
-                    [-97.22, 48.98],
-                    [-96.58, 45.94],
-                    [-104.03, 45.94],
-                    [-104.05, 48.99]
-                ]]
-            }
-        }];
-        L.geoJSON(states).addTo(map); *@
+	<script>
+		var map = L.map('map').setView([45.5119, -73.6774], 11);
 
-        $.ajax({
-                url: "/Ecoterritoire/GetEcoterritoireData",
-                dataType: "json",
-                success: function (data) {
-                    // Add the GeoJSON layer to the map
-                    L.geoJSON(data).addTo(map);
-                },
-                error: function (req, err) {
-                    console.log('Error: ' + err);
-                    console.log(req.responseText);
-                }
-            });
+		L.tileLayer('https:tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https:www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map);
+
+		$.ajax({
+				url: "/Ecoterritoire/GetEcoterritoires",
+				dataType: "json",
+				success: function (data) {
+			   function onEachFeature(feature, layer) {
+						// does this feature have a property named popupContent?
+						if (feature.properties && feature.properties.Description) {
+							layer.bindPopup(feature.properties.Description);
+						}
+					}
+				 L.geoJSON(data).addTo(map);
+						 L.geoJSON(data, {
+			onEachFeature: onEachFeature
+		}).addTo(map);
+				},
+				error: function (req, err) {
+					console.log('Error: ' + err);
+					console.log(req.responseText);
+				}
+			});
 
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-
-    </script>
+	</script>
 }

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
-using System.Text.Json;
-using GeoJSON.Text.Feature;
+using Newtonsoft.Json;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -20,25 +18,70 @@ namespace asp_mvc_webmap_vs.Controllers
         {
             _context = context;
         }
+        public IActionResult Map()
+        {
+            return View("Map");
+        }
 
         [HttpGet]
-        public ContentResult GetEcoterritoireData()
+        public async Task<ActionResult<IEnumerable<Ecoterritoire>>> GetEcoterritoires()
         {
-            // Fetch GeoJSON FeatureCollection
-            FeatureCollection featureCollection = _context.FetchGeoJsonFromDatabase();
+            var feature = await _context.Ecoterritoires.ToListAsync();
+            var features = feature.Select(record =>
+            {
+                if (record.Geom == null)
+                    return null;
 
-            // Serialize FeatureCollection to JSON
-            string geoJson = JsonSerializer.Serialize(featureCollection);
+                if (record.Geom is NetTopologySuite.Geometries.Polygon polygon)
+                {
+                    var polygonCoord = new List<List<Double[]>>()
+                    {
+                        polygon.ExteriorRing.Coordinates
+                                .Select(coord => new[] { coord.X, coord.Y }) // Flip to [latitude, longitude]
+                                .ToList()
+                    };
 
-            // Return GeoJSON
+                    var geoJsonPolygon = new
+                    {
+                        type = "Polygon",
+                        coordinates = polygonCoord
+                    };
+
+                    // Add additional properties from your model
+                    var properties = new Dictionary<string, object>
+                    {
+                        { "Id", record.Id },
+                        { "Description", record.Text },
+                        { "Area", record.ShapeArea }
+                    };
+
+                    // Create a GeoJSON Feature
+                    return new
+                    {
+                        type = "Feature",
+                        geometry = geoJsonPolygon,
+                        properties
+                    };
+                }
+
+                return null;
+            })
+                .Where(feature => feature != null) // Filter out null features
+                .ToList();
+
+            var featureCollection = new
+            {
+                type = "FeatureCollection",
+                features
+            };
+
+            // Serialize to GeoJSON
+            var geoJson = JsonConvert.SerializeObject(featureCollection);
+
+            // Return GeoJSON with the appropriate content type
             return Content(geoJson, "application/json");
         }
 
-        // GET: Ecoterritoire/Map
-        public async Task<IActionResult> Map()
-        {
-            return View(await _context.Ecoterritoires.ToListAsync());
-        }
 
         // GET: Ecoterritoire
         public async Task<IActionResult> Index()
