@@ -6,10 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
-using GeoJSON.Text;
-using NetTopologySuite.IO;
 using Newtonsoft.Json;
-using GeoJSON.Text.Geometry;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
