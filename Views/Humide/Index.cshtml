@@ -1,0 +1,59 @@
+@model IEnumerable<asp_mvc_webmap_vs.Models.MilieuxHumide>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Geom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MhId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MhTypeDv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConsClDv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Superficie)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Geom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MhId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MhTypeDv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsClDv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Superficie)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,129 @@
+@model asp_mvc_webmap_vs.Models.SignalementsCoyote
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>SignalementsCoyote</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Geom" class="control-label"></label>
+                <input asp-for="Geom" class="form-control" />
+                <span asp-validation-for="Geom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EntryId" class="control-label"></label>
+                <input asp-for="EntryId" class="form-control" />
+                <span asp-validation-for="EntryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ObjId" class="control-label"></label>
+                <input asp-for="ObjId" class="form-control" />
+                <span asp-validation-for="ObjId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DatObs" class="control-label"></label>
+                <input asp-for="DatObs" class="form-control" />
+                <span asp-validation-for="DatObs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HrObs" class="control-label"></label>
+                <input asp-for="HrObs" class="form-control" />
+                <span asp-validation-for="HrObs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NbCoyotes" class="control-label"></label>
+                <input asp-for="NbCoyotes" class="form-control" />
+                <span asp-validation-for="NbCoyotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alimentati" class="control-label"></label>
+                <input asp-for="Alimentati" class="form-control" />
+                <span asp-validation-for="Alimentati" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatutAni" class="control-label"></label>
+                <input asp-for="StatutAni" class="form-control" />
+                <span asp-validation-for="StatutAni" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Periode" class="control-label"></label>
+                <input asp-for="Periode" class="form-control" />
+                <span asp-validation-for="Periode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompClass" class="control-label"></label>
+                <input asp-for="CompClass" class="form-control" />
+                <span asp-validation-for="CompClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComCode" class="control-label"></label>
+                <input asp-for="ComCode" class="form-control" />
+                <span asp-validation-for="ComCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cote" class="control-label"></label>
+                <input asp-for="Cote" class="form-control" />
+                <span asp-validation-for="Cote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Territoire" class="control-label"></label>
+                <input asp-for="Territoire" class="form-control" />
+                <span asp-validation-for="Territoire" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatutMen" class="control-label"></label>
+                <input asp-for="StatutMen" class="form-control" />
+                <span asp-validation-for="StatutMen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provenance" class="control-label"></label>
+                <input asp-for="Provenance" class="form-control" />
+                <span asp-validation-for="Provenance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Verif" class="control-label"></label>
+                <input asp-for="Verif" class="form-control" />
+                <span asp-validation-for="Verif" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="X" class="control-label"></label>
+                <input asp-for="X" class="form-control" />
+                <span asp-validation-for="X" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Y" class="control-label"></label>
+                <input asp-for="Y" class="form-control" />
+                <span asp-validation-for="Y" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lat" class="control-label"></label>
+                <input asp-for="Lat" class="form-control" />
+                <span asp-validation-for="Lat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Long" class="control-label"></label>
+                <input asp-for="Long" class="form-control" />
+                <span asp-validation-for="Long" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

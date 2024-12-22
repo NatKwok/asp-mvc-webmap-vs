@@ -1,0 +1,149 @@
+@model IEnumerable<asp_mvc_webmap_vs.Models.SignalementsCoyote>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Geom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DatObs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HrObs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NbCoyotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alimentati)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatutAni)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Periode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Territoire)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatutMen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provenance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Verif)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.X)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Y)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Long)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Geom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ObjId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatObs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HrObs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NbCoyotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alimentati)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatutAni)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Periode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Territoire)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatutMen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provenance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Verif)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.X)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Y)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Long)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
