@@ -28,7 +28,7 @@ This project is an ASP.NET MVC web application that integrates a web map with ge
 ```bash
 git clone https://github.com/NatKwok/asp-mvc-webmap-vs.git
 cd asp-mvc-webmap-vs
-git checkout feature/nathan
+git checkout main
 ```
 
 ### 2. Configure the Database
