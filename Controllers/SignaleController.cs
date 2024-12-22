@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
+using Newtonsoft.Json;
+using NetTopologySuite.Geometries;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -17,6 +19,72 @@ namespace asp_mvc_webmap_vs.Controllers
         public SignaleController(MvcWebmapContext context)
         {
             _context = context;
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SignalementsCoyote>>> GetSignalementsCoyotes()
+        {
+            var feature = await _context.SignalementsCoyotes.Take(2).ToListAsync();
+
+            //Map data to GeoJSON Features
+            var features = feature.Select(record =>
+            {
+
+                // Check if Geom is not null
+                if (record.Geom == null)
+                {
+                    // Handle cases where Geom is null (e.g., skip the record or provide a default value)
+                    return null;
+                }
+
+                if (record.Geom is NetTopologySuite.Geometries.Point Point)
+
+                {
+                    // Replace with the actual fields for latitude and longitude in your model
+                    var latitude = record.Geom.X;
+                    var longitude = record.Geom.Y;
+
+                    // Create a GeoJSON Point geometry
+                    var point = new Point(latitude, longitude);
+
+                    // Add additional properties from your model
+                    var properties = new Dictionary<string, object>
+                    {
+                        { "Id", record.Id },
+                        { "Date Observed", record.DatObs }, // Example field
+                        { "Area", record.Territoire } // Example field
+                    };
+
+                    // Create a GeoJSON Feature
+                    return new
+                    {
+                        type = "Feature",
+                        geometry = point,
+                        properties
+                    };
+                }
+
+                return null;
+            })
+            .Where(feature => feature != null)
+            .ToList();
+
+            //Create a FeatureCollection
+            var featureCollection = new
+            {
+                type = "FeatureCollection",
+                features
+            };
+            //Serialize to GeoJSON
+            var geoJson = JsonConvert.SerializeObject(featureCollection, Formatting.Indented,
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    });
+
+            // Return GeoJSON with appropriate content type
+            return Content(geoJson, "application/json");
         }
 
         // GET: Signale

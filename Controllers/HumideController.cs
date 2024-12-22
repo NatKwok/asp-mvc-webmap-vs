@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
+using Newtonsoft.Json;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -17,6 +18,85 @@ namespace asp_mvc_webmap_vs.Controllers
         public HumideController(MvcWebmapContext context)
         {
             _context = context;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MilieuxHumide>>> GetMilieuxHumides()
+        {
+            // Fetch data from the database
+            var feature = await _context.MilieuxHumides.ToListAsync();
+
+            // Map data to GeoJSON Features
+            var features = feature.Select(record =>
+            {
+                if (record.Geom == null)
+                    return null;
+
+                if (record.Geom is NetTopologySuite.Geometries.MultiPolygon multiPolygon)
+                {
+                    // Extract coordinates for each polygon in the MultiPolygon
+                    var multiPolygonCoordinates = multiPolygon.Geometries
+                        .OfType<NetTopologySuite.Geometries.Polygon>()
+                        .Select(polygon =>
+                        {
+                            // Extract the exterior ring
+                            var exteriorRing = polygon.ExteriorRing.Coordinates
+                                .Select(coord => new[] { coord.X, coord.Y }) // Flip to [latitude, longitude]
+                                .ToList();
+
+                            // Extract interior rings (holes)
+                            var interiorRings = polygon.InteriorRings
+                                .Select(ring => ring.Coordinates
+                                .Select(coord => new[] { coord.X, coord.Y })
+                                .ToList())
+                                .ToList();
+
+                            // Combine exterior and interior rings
+                            var polygonCoordinates = new List<List<double[]>> { exteriorRing };
+                            polygonCoordinates.AddRange(interiorRings);
+
+                            return polygonCoordinates; // Return as List<List<Position>>
+                        })
+                        .ToList();
+
+                    // Create a GeoJSON MultiPolygon geometry
+                    var geoJsonMultiPolygon = new
+                    {
+                        type = "MultiPolygon",
+                        coordinates = multiPolygonCoordinates
+                    };
+                    // Add additional properties from your model
+                    var properties = new Dictionary<string, object>
+                    {
+                        { "Id", record.Id },
+                        { "Type", record.MhId },
+                        { "Class", record.ConsClDv }
+                    };
+
+                    // Create a GeoJSON Feature
+                    return new
+                    {
+                        type = "Feature",
+                        geometry = geoJsonMultiPolygon,
+                        properties
+                    };
+                }
+
+                return null; // Skip if not a MultiPolygon
+            })
+            .Where(feature => feature != null) // Filter out null features
+            .ToList();
+
+            var featureCollection = new
+            {
+                type = "FeatureCollection",
+                features
+            };
+
+            // Serialize to GeoJSON
+            var geoJson = JsonConvert.SerializeObject(featureCollection);
+
+            // Return GeoJSON with the appropriate content type
+            return Content(geoJson, "application/json");
         }
 
         // GET: Humide
