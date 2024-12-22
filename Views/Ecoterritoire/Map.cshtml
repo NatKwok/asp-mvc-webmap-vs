@@ -36,25 +36,37 @@
 		}).addTo(map);
 
 		$.ajax({
-				url: "/Ecoterritoire/GetEcoterritoires",
-				dataType: "json",
-				success: function (data) {
-			   function onEachFeature(feature, layer) {
-						// does this feature have a property named popupContent?
-						if (feature.properties && feature.properties.Description) {
-							layer.bindPopup(feature.properties.Description);
-						}
+			url: "/Ecoterritoire/GetEcoterritoires",
+			dataType: "json",
+			success: function(data) {
+				function onEachFeature(feature, layer) {
+					if (feature.properties && feature.properties.Description) {
+						layer.bindPopup(feature.properties.Description);
 					}
-				 L.geoJSON(data).addTo(map);
-						 L.geoJSON(data, {
-			onEachFeature: onEachFeature
-		}).addTo(map);
-				},
-				error: function (req, err) {
-					console.log('Error: ' + err);
-					console.log(req.responseText);
 				}
-			});
+				function polystyle (polygon) {
+					return {
+						fillColor: 'green',
+						weight: 2,
+						opacity: 1,
+						color: 'green',
+						fillOpacity: 0.3
+					};
+				}
+				
+
+				L.geoJSON(data).addTo(map);
+
+				L.geoJSON(data, {style: polystyle}).addTo(map);
+				L.geoJSON(data, {
+					onEachFeature: onEachFeature
+				}).addTo(map);
+			},
+			error: function(req, err) {
+				console.log('Error: ' + err);
+				console.log(req.responseText);
+			}
+		});
 
 
 	</script>
