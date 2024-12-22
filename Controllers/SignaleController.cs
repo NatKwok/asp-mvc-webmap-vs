@@ -38,7 +38,7 @@ namespace asp_mvc_webmap_vs.Controllers
                     return null;
                 }
 
-                if (record.Geom is NetTopologySuite.Geometries.Point Point)
+                if (record.Geom is Point Point)
 
                 {
                     // Replace with the actual fields for latitude and longitude in your model

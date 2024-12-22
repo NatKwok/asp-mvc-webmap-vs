@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
 using Newtonsoft.Json;
+using NetTopologySuite.Geometries;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -31,11 +32,11 @@ namespace asp_mvc_webmap_vs.Controllers
                 if (record.Geom == null)
                     return null;
 
-                if (record.Geom is NetTopologySuite.Geometries.MultiPolygon multiPolygon)
+                if (record.Geom is MultiPolygon multiPolygon)
                 {
                     // Extract coordinates for each polygon in the MultiPolygon
                     var multiPolygonCoordinates = multiPolygon.Geometries
-                        .OfType<NetTopologySuite.Geometries.Polygon>()
+                        .OfType<Polygon>()
                         .Select(polygon =>
                         {
                             // Extract the exterior ring
