@@ -67,6 +67,12 @@
 				console.log(req.responseText);
 			}
 		});
+		const ecoterritoire = L.layerGroup(ecoData);
+		const millieuxhumide = L.LayerGroup(humideData);
+		const coyote = L.LayerGroup(coyoteData);
+		layerControl.addOverlay(ecoterritoire, "EcoTerritoire");
+		layerControl.addOverlay(millieuxhumide, "Humide");
+		layerControl.addOverlay(coyote, "Signalement de Coyote");
 
 
 	</script>
