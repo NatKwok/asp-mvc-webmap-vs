@@ -1,0 +1,53 @@
+@model asp_mvc_webmap_vs.Models.MilieuxHumide
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>MilieuxHumide</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Geom" class="control-label"></label>
+                <input asp-for="Geom" class="form-control" />
+                <span asp-validation-for="Geom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MhId" class="control-label"></label>
+                <input asp-for="MhId" class="form-control" />
+                <span asp-validation-for="MhId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MhTypeDv" class="control-label"></label>
+                <input asp-for="MhTypeDv" class="form-control" />
+                <span asp-validation-for="MhTypeDv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConsClDv" class="control-label"></label>
+                <input asp-for="ConsClDv" class="form-control" />
+                <span asp-validation-for="ConsClDv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Superficie" class="control-label"></label>
+                <input asp-for="Superficie" class="form-control" />
+                <span asp-validation-for="Superficie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

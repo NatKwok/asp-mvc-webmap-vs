@@ -1,0 +1,138 @@
+@model asp_mvc_webmap_vs.Models.SignalementsCoyote
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>SignalementsCoyote</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Geom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Geom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EntryId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EntryId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ObjId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ObjId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DatObs)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DatObs)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HrObs)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HrObs)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NbCoyotes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NbCoyotes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Alimentati)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Alimentati)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StatutAni)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StatutAni)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Periode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Periode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CompClass)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CompClass)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ComCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ComCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cote)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cote)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Territoire)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Territoire)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StatutMen)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StatutMen)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Provenance)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Provenance)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Verif)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Verif)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.X)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.X)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Y)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Y)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lat)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Long)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Long)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
