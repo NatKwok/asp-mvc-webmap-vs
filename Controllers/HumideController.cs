@@ -25,7 +25,7 @@ namespace asp_mvc_webmap_vs.Controllers
         public async Task<ActionResult<IEnumerable<MilieuxHumide>>> GetMilieuxHumides()
         {
             // Fetch data from the database
-            var feature = await _context.MilieuxHumides.ToListAsync();
+            var feature = await _context.MilieuxHumides.Take(2).ToListAsync();
 
             // Map data to GeoJSON Features
             var features = feature.Select(record =>
@@ -70,8 +70,8 @@ namespace asp_mvc_webmap_vs.Controllers
                     var properties = new Dictionary<string, object>
                     {
                         { "Id", record.Id },
-                        { "Type", record.MhId },
-                        { "Class", record.ConsClDv }
+                        { "mhID", record.MhId },
+                        { "ConscClDv", record.ConsClDv }
                     };
 
                     // Create a GeoJSON Feature
