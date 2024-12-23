@@ -14,6 +14,25 @@
 			width: 100%;
 			height: 700px;
 		}
+
+		.legend {
+			background: white;
+			padding: 10px;
+			border-radius: 5px;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			font-size: 14px;
+			line-height: 18px;
+			color: #555;
+		}
+
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+
 	</style>
 </header>
 <div>
@@ -50,17 +69,16 @@
 						layer.bindPopup(feature.properties.Description);
 					}
 				}
-				function polystyle (polygon) {
+				function polystyle(polygon) {
 					return {
 						fillColor: 'green',
 						weight: 2,
 						opacity: 1,
 						color: 'green',
-						fillOpacity: 0.3
+						fillOpacity: 0.5
 					};
 				}
 				
-
 				L.geoJSON(ecoData, {
 					style: polystyle,
 					onEachFeature: onEachFeature
@@ -87,14 +105,14 @@
 					}
 				}
 				function polystyleHumide(polygon) {
-					return {
-						fillColor: 'blue', 
-						weight: 2,
-						opacity: 1,
-						color: 'blue',
-						fillOpacity: 0.3
-					};
-				}
+				return {
+					fillColor: 'blue',
+					weight: 2,
+					opacity: 1,
+					color: 'blue',
+					fillOpacity: 0.5
+				};
+			}
 
 				L.geoJSON(humideData, {
 					onEachFeature: onEachFeatureHumide,
@@ -122,15 +140,15 @@
 				}
 
 				function pointstyle(feature) {
-					return {
-						radius: 4,
-						fillColor: "#f52b00",
-						color: "#000",
-						weight: 1,
-						opacity: 1,
-						fillOpacity: 0.8
-					};
-				}
+								return {
+									radius: 6,
+									fillColor: "#f52b00",
+									color: "#000",
+									weight: 1,
+									opacity: 1,
+									fillOpacity: 0.8
+								};
+							}
 
 				L.geoJSON(sigData, {
 					onEachFeature: onEachFeatureCoyote,
@@ -151,7 +169,7 @@
 
 
 		//Layer Control
-		const baseLayers = {}; // Add base map layers here if needed
+		const baseLayers = {};
 		const overlays = {
 			"EcoTerritoire": ecoterritoireLayer,
 			"Milieux Humides": humideLayer,
@@ -159,9 +177,17 @@
 		};
 
 		L.control.layers(baseLayers, overlays).addTo(map);
-		// layerControl.addOverlay(ecoterritoire, "EcoTerritoire");
-		// layerControl.addOverlay(millieuxhumide, "Humide");
-		// layerControl.addOverlay(coyote, "Signalement de Coyote");
+
+		//Legend
+		const legend = L.control({ position: "bottomright" });
+		legend.onAdd = function (map) {
+			const div = L.DomUtil.create("div", "legend");
+			div.innerHTML += "<i style='background: green'></i> EcoTerritoire<br>";
+			div.innerHTML += "<i style='background: blue'></i> Milieux Humides<br>";
+			div.innerHTML += "<i style='background: #f52b00'></i> Signalement Coyote<br>";
+			return div;
+		};
+		legend.addTo(map);
 
 
 	</script>

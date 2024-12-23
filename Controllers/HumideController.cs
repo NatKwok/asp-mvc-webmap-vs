@@ -20,6 +20,7 @@ namespace asp_mvc_webmap_vs.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MilieuxHumide>>> GetMilieuxHumides()
         {
