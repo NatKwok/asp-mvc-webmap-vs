@@ -49,39 +49,23 @@ public partial class MvcWebmapContext : DbContext
                 .HasColumnName("text_");
         });
 
-        //modelBuilder.Entity<MilieuxHumide>(entity =>
-        //{
-        //    entity.HasKey(e => e.Id).HasName("milieux-humides_pkey");
-
-        //    entity.ToTable("milieux-humides");
-
-        //    entity.Property(e => e.Id).HasColumnName("id");
-        //    entity.Property(e => e.ConsClDv).HasColumnName("cons_cl_dv");
-        //    entity.Property(e => e.Geom)
-        //        .HasColumnType("geometry(Polygon,4326)")
-        //        .HasColumnName("geom");
-        //    entity.Property(e => e.MhId).HasColumnName("mh_id");
-        //    entity.Property(e => e.MhTypeDv).HasColumnName("mh_type_dv");
-        //    entity.Property(e => e.Superficie).HasColumnName("superficie");
-        //});
         modelBuilder.Entity<MilieuxHumide>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("milieux-humides_pkey");
+       {
+           entity.HasKey(e => e.Id).HasName("milieux_humides_modded_pkey");
 
-            entity.ToTable("milieux-humides");
+           entity.ToTable("milieux_humides_modded");
 
-            entity.HasIndex(e => e.Geom, "sidx_milieux-humides_geom").HasMethod("gist");
+           entity.HasIndex(e => e.Geom, "sidx_milieux_humides_modded_geom").HasMethod("gist");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.ConsClDv).HasColumnName("cons_cl_dv");
-            entity.Property(e => e.Geom)
-                .HasColumnType("geometry(MultiPolygon,32188)")
-                .HasColumnName("geom");
-            entity.Property(e => e.MhId).HasColumnName("mh_id");
-            entity.Property(e => e.MhTypeDv).HasColumnName("mh_type_dv");
-            entity.Property(e => e.Superficie).HasColumnName("superficie");
-        });
-
+           entity.Property(e => e.Id).HasColumnName("id");
+           entity.Property(e => e.ConsClDv).HasColumnName("cons_cl_dv");
+           entity.Property(e => e.Geom)
+               .HasColumnType("geometry(MultiPolygon,4326)")
+               .HasColumnName("geom");
+           entity.Property(e => e.MhId).HasColumnName("mh_id");
+           entity.Property(e => e.MhTypeDv).HasColumnName("mh_type_dv");
+           entity.Property(e => e.Superficie).HasColumnName("superficie");
+       });
 
         modelBuilder.Entity<SignalementsCoyote>(entity =>
         {

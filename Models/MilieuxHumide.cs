@@ -16,5 +16,5 @@ public partial class MilieuxHumide
 
     public int? ConsClDv { get; set; }
 
-    public decimal? Superficie { get; set; }
+    public double? Superficie { get; set; }
 }
