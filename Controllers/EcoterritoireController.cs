@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
 using Newtonsoft.Json;
+using NetTopologySuite.Geometries;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -32,7 +33,7 @@ namespace asp_mvc_webmap_vs.Controllers
                 if (record.Geom == null)
                     return null;
 
-                if (record.Geom is NetTopologySuite.Geometries.Polygon polygon)
+                if (record.Geom is Polygon polygon)
                 {
                     var polygonCoord = new List<List<Double[]>>()
                     {

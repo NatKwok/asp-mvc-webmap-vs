@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Geom)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EntryId)
@@ -31,10 +31,10 @@
                 @Html.DisplayNameFor(model => model.NbCoyotes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Alimentati)
+                @Html.DisplayNameFor(model => model.Alimentation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StatutAni)
+                @Html.DisplayNameFor(model => model.StatutAnimal)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Periode)
@@ -52,7 +52,7 @@
                 @Html.DisplayNameFor(model => model.Territoire)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StatutMen)
+                @Html.DisplayNameFor(model => model.StatutMention)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Provenance)
@@ -79,7 +79,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Geom)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EntryId)
@@ -97,10 +97,10 @@
                 @Html.DisplayFor(modelItem => item.NbCoyotes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Alimentati)
+                @Html.DisplayFor(modelItem => item.Alimentation)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StatutAni)
+                @Html.DisplayFor(modelItem => item.StatutAnimal)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Periode)
@@ -118,7 +118,7 @@
                 @Html.DisplayFor(modelItem => item.Territoire)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StatutMen)
+                @Html.DisplayFor(modelItem => item.StatutMention)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Provenance)

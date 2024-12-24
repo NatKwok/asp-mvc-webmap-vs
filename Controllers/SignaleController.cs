@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using asp_mvc_webmap_vs.Data;
 using asp_mvc_webmap_vs.Models;
+using Newtonsoft.Json;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.Algorithm;
 
 namespace asp_mvc_webmap_vs.Controllers
 {
@@ -17,6 +20,73 @@ namespace asp_mvc_webmap_vs.Controllers
         public SignaleController(MvcWebmapContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SignalementsCoyote>>> GetSignalementsCoyotes()
+        {
+            var feature = await _context.SignalementsCoyotes.ToListAsync();
+
+            var features = feature.Select(record =>
+            {
+
+                if (record.Geom == null)
+                {
+                    return null;
+                }
+
+                if (record.Geom is Point Point)
+
+                {
+                    // Replace with the actual fields for latitude and longitude in your model
+                    //var latitude = record.Geom.X;
+                    //var longitude = record.Geom.Y;
+
+                    //var point = new Point(latitude, longitude);
+                    var geojsonPoint = new
+                    {
+                        type = "Point",
+                        coordinates = new[] {record.Geom.X, record.Geom.Y}
+                    };
+
+                    var properties = new Dictionary<string, object>
+                    {
+                        { "Id", record.Id },
+                        { "Date Observed", record.DatObs },
+                        {"Hour Observed" , record.HrObs },
+                        { "Area", record.Territoire },
+                        {"# of Coyotes", record.NbCoyotes }
+                    };
+
+                    // Create a GeoJSON Feature
+                    return new
+                    {
+                        type = "Feature",
+                        geometry = geojsonPoint,
+                        properties
+                    };
+                }
+
+                return null;
+            })
+            .Where(feature => feature != null)
+            .ToList();
+
+            //Create a FeatureCollection
+            var featureCollection = new
+            {
+                type = "FeatureCollection",
+                features
+            };
+            //Serialize to GeoJSON
+            var geoJson = JsonConvert.SerializeObject(featureCollection, Formatting.Indented,
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    });
+
+            // Return GeoJSON with appropriate content type
+            return Content(geoJson, "application/json");
         }
 
         // GET: Signale
@@ -54,7 +124,7 @@ namespace asp_mvc_webmap_vs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Geom,EntryId,ObjId,DatObs,HrObs,NbCoyotes,Alimentati,StatutAni,Periode,CompClass,ComCode,Cote,Territoire,StatutMen,Provenance,Verif,X,Y,Lat,Long")] SignalementsCoyote signalementsCoyote)
+        public async Task<IActionResult> Create([Bind("Id,Geom,EntryId,ObjId,DatObs,HrObs,NbCoyotes,Alimentation,StatutAnimal,Periode,CompClass,ComCode,Cote,Territoire,StatutMention,Provenance,Verif,X,Y,Lat,Long")] SignalementsCoyote signalementsCoyote)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +156,7 @@ namespace asp_mvc_webmap_vs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Geom,EntryId,ObjId,DatObs,HrObs,NbCoyotes,Alimentati,StatutAni,Periode,CompClass,ComCode,Cote,Territoire,StatutMen,Provenance,Verif,X,Y,Lat,Long")] SignalementsCoyote signalementsCoyote)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Geom,EntryId,ObjId,DatObs,HrObs,NbCoyotes,Alimentation,StatutAnimal,Periode,CompClass,ComCode,Cote,Territoire,StatutMention,Provenance,Verif,X,Y,Lat,Long")] SignalementsCoyote signalementsCoyote)
         {
             if (id != signalementsCoyote.Id)
             {

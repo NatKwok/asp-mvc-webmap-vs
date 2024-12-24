@@ -35,10 +35,16 @@
 			attribution: '&copy; <a href="https:www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
+		const ecoterritoireLayer = L.layerGroup();
+		const humideLayer = L.layerGroup();
+		const coyoteLayer = L.layerGroup();
+
+		//EcoTerritoire Data
 		$.ajax({
 			url: "/Ecoterritoire/GetEcoterritoires",
 			dataType: "json",
-			success: function(data) {
+			success: 
+			function(ecoData) {
 				function onEachFeature(feature, layer) {
 					if (feature.properties && feature.properties.Description) {
 						layer.bindPopup(feature.properties.Description);
@@ -55,24 +61,107 @@
 				}
 				
 
-				L.geoJSON(data).addTo(map);
-
-				L.geoJSON(data, {style: polystyle}).addTo(map);
-				L.geoJSON(data, {
+				L.geoJSON(ecoData, {
+					style: polystyle,
 					onEachFeature: onEachFeature
-				}).addTo(map);
+				}).addTo(ecoterritoireLayer);
+
+				ecoterritoireLayer.addTo(map);
+
 			},
 			error: function(req, err) {
 				console.log('Error: ' + err);
 				console.log(req.responseText);
 			}
 		});
-		const ecoterritoire = L.layerGroup(ecoData);
-		const millieuxhumide = L.LayerGroup(humideData);
-		const coyote = L.LayerGroup(coyoteData);
-		layerControl.addOverlay(ecoterritoire, "EcoTerritoire");
-		layerControl.addOverlay(millieuxhumide, "Humide");
-		layerControl.addOverlay(coyote, "Signalement de Coyote");
+
+		//Humide Data
+		$.ajax({
+			url: "/Humide/GetMilieuxHumides",
+			dataType: "json",
+			success:
+			function(humideData) {
+				function onEachFeatureHumide(feature, layer) {
+					if (feature.properties && feature.properties.MhId) {
+						layer.bindPopup(feature.properties.MhId);
+					}
+				}
+				function polystyleHumide(polygon) {
+					return {
+						fillColor: 'blue', 
+						weight: 2,
+						opacity: 1,
+						color: 'blue',
+						fillOpacity: 0.3
+					};
+				}
+
+				L.geoJSON(humideData, {
+					onEachFeature: onEachFeatureHumide,
+					style: polystyleHumide
+				}).addTo(humideLayer);
+
+				humideLayer.addTo(map);
+			},
+			error: function(req, err) {
+				console.log('Error: ' + err);
+				console.log(req.responseText);
+			}
+		});
+
+		//Coyote Data
+		$.ajax({
+			url: "/Signale/GetSignalementsCoyotes",
+			dataType: "json",
+			success: 
+			function (sigData) {
+				function onEachFeatureCoyote(feature, layer) {
+					if (feature.properties && feature.properties.Area) {
+						layer.bindPopup(feature.properties.Area);
+					}
+				}
+
+				function pointstyle(feature) {
+					return {
+						radius: 4,
+						fillColor: "#f52b00",
+						color: "#000",
+						weight: 1,
+						opacity: 1,
+						fillOpacity: 0.8
+					};
+				}
+
+				L.geoJSON(sigData, {
+					onEachFeature: onEachFeatureCoyote,
+					pointToLayer: function (feature, latlng) {
+						return L.circleMarker(latlng, pointstyle(feature));
+					},
+					
+				}).addTo(coyoteLayer);
+
+				coyoteLayer.addTo(map); 
+
+			},
+			error: function (req, err) {
+				console.log("Error: " + err);
+				console.log(req.responseText);
+			}
+		});
+
+
+		//Layer Control
+		const baseLayers = {}; // Add base map layers here if needed
+		const overlays = {
+			"EcoTerritoire": ecoterritoireLayer,
+			"Milieux Humides": humideLayer,
+			"Signalement Coyote": coyoteLayer
+		};
+
+		L.control.layers(baseLayers, overlays).addTo(map);
+		// layerControl.addOverlay(ecoterritoire, "EcoTerritoire");
+		// layerControl.addOverlay(millieuxhumide, "Humide");
+		// layerControl.addOverlay(coyote, "Signalement de Coyote");
 
 
 	</script>
