@@ -71,6 +71,7 @@ namespace asp_mvc_webmap_vs.Controllers
                     {
                         { "Id", record.Id },
                         { "mhID", record.MhId },
+                        { "mh_type_dv ", record.MhTypeDv},
                         { "ConscClDv", record.ConsClDv }
                     };
 
